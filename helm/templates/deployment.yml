@@ -20,6 +20,7 @@ spec:
       containers:
         - name: "{{.Release.Name}}"
           image: "{{ .Values.image }}:{{ .Values.imageTag }}"
+          args: ["--config.file=/config/blackbox.yml"]
           ports:
             - containerPort: 9115
           livenessProbe:
@@ -34,11 +35,6 @@ spec:
           volumeMounts:
             - name: config-volume
               mountPath: /config
-          envFrom:
-            - secretRef:
-                name: "{{.Release.Name}}"
-            - configMapRef:
-                name: "{{.Release.Name}}"
       volumes:
         - name: config-volume
           configMap:

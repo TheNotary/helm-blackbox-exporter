@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: "{{.Release.Name}}"
 data:
-  blackbox.yml: "{{ .Values.blackboxConfigYaml }}"
+  blackbox.yml: {{ toYaml .Values.blackboxConfigYaml | indent 4 }}
