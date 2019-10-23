@@ -1,0 +1,21 @@
+modules:
+  dns_udp:
+    prober: dns
+    timeout: 5s
+  http_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      preferred_ip_protocol: "ip4"
+  icmp_example:
+    prober: icmp
+    timeout: 5s
+    icmp:
+      preferred_ip_protocol: "ip4"
+      source_ip_address: "127.0.0.1"
+  dns_tcp_example:
+    prober: dns
+    dns:
+      transport_protocol: "tcp" # defaults to "udp"
+      preferred_ip_protocol: "ip4" # defaults to "ip6"
+      query_name: "www.prometheus.io"
