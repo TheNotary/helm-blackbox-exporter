@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{.Release.Name}}"
+spec:
+  selector:
+    matchLabels:
+      app: "{{.Release.Name}}"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: "{{.Release.Name}}"
+      annotations:
+        timestamp: "{{ date "20060102150405" .Release.Time }}"
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+      containers:
+        - name: "{{.Release.Name}}"
+          image: "{{ .Values.image }}:{{ .Values.imageTag }}"
+          ports:
+            - containerPort: 9115
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 9115
+              httpHeaders:
+              - name: Custom-Header
+                value: Awesome
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+          envFrom:
+            - secretRef:
+                name: "{{.Release.Name}}"
+            - configMapRef:
+                name: "{{.Release.Name}}"
+      volumes:
+        - name: config-volume
+          configMap:
+            name: "{{.Release.Name}}"

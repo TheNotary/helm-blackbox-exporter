@@ -1,0 +1,7 @@
+name: helm-blackbox-exporter
+version: 0.0.1
+appVersion: 0.0.1
+home: https://github.com/thenotary/helm-blackbox-exporter
+description: Some kubernetes infra-code
+sources:
+  - https://github.com/prometheus/blackbox_exporter
